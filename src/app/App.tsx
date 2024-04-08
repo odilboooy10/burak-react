@@ -5,7 +5,7 @@ import { HomePage } from "./screens/homePage";
 import { ProductsPage } from "./screens/productsPage";
 import { OrdersPage } from "./screens/ordersPage";
 import { UserPage } from "./screens/userPage";
-import { HomeNavebar } from "./components/headers/HomeNavbar";
+import { HomeNavbar } from "./components/headers/HomeNavbar";
 import { OtherNavebar } from "./components/headers/OtherNavbar";
 import { Footer } from "./components/footer";
 import "../css/App.css";
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <>
-      {location.pathname === "/" ? <HomeNavebar /> : <OtherNavebar />}     
+      {location.pathname === "/" ? <HomeNavbar /> : <OtherNavebar />}     
         <Switch>
           <Route path="/products">
             <ProductsPage />
