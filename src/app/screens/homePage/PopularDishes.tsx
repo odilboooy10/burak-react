@@ -81,7 +81,7 @@ function PopularDishes() {
               );
             })
             ) : (
-              <Box className="no-data">New Products are not available!</Box>
+              <Box className="no-data">Products are not available!</Box>
             )}
           </Stack>
         </Stack>
