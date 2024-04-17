@@ -12,6 +12,7 @@ import HelpPage from "./screens/helpPage";
 import "../css/App.css";
 import "../css/navbar.css";
 import "../css/footer.css";
+import Test from "./screens/userPage/Test";
 
 
 function App() {
@@ -34,7 +35,8 @@ function App() {
             <HelpPage />
           </Route>
           <Route path="/">
-            <HomePage />
+            <Test />
+            {/* <HomePage /> */}
           </Route>
         </Switch>
         <Footer />
