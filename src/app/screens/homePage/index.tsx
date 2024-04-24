@@ -28,6 +28,7 @@ export default function HomePage() {
     const {popularDishes} = useSelector(popularDishesRetriever); 
 
     useEffect(() => {}, []);
+    
     return <div className={"homepage"}>
         <Statistics/>
         <PopularDishes/>
