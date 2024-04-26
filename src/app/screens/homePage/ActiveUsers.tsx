@@ -17,8 +17,9 @@ const topUsersRetriever = createSelector(
   (topUsers) => ({ topUsers })
 );
 
-function ActiveUsers() {
+export default function ActiveUsers() {
   const { topUsers } = useSelector(topUsersRetriever);
+
   return (
     <div className={"active-users-frame"}>
       <Container>
@@ -56,5 +57,3 @@ function ActiveUsers() {
     </div>
   );
 }
-
-export default ActiveUsers;
