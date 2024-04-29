@@ -21,31 +21,39 @@ import { setProducts } from "./slice";
 import { createSelector } from "reselect";
 import { retrieveProducts } from "./selector";
 import { Product } from "../../../lib/types/product";
+import { useEffect } from "react";
+import ProductService from "../../services/ProductService";
+import { ProductCollection } from "../../../lib/enums/product.enum";
+import { serverApi } from "../../../lib/config";
 
 /** REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
-  setPopularDishes: (data: Product[]) => dispatch(setProducts(data)),
+  setProducts: (data: Product[]) => dispatch(setProducts(data)),
 });
 
 const productsRetriever = createSelector(
   retrieveProducts,
-  (products) => ({ products })
-);
+  (products) => ({ products 
+}));
 
+export default function Products() {
 
+    const {setProducts} = actionDispatch(useDispatch());
+    const {products} = useSelector(productsRetriever);
 
-const products = [
-  { productName: "Cutlet", imagePath: "/img/cutlet.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab-fresh.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab.webp" },
-  { productName: "Lavash", imagePath: "/img/lavash.webp" },
-  { productName: "Lavash", imagePath: "/img/lavash.webp" },
-  { productName: "Cutlet", imagePath: "/img/cutlet.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab-fresh.webp" },
-];
+    useEffect(() => {
+      const product = new ProductService();
+      product.getProducts({
+        page: 1,
+        limit: 8,
+        order: "createdAt",
+        productCollection: ProductCollection.DISH,
+        search: "",
+      })
+      .then(data => setProducts(data))
+      .catch((err) => console.log(err));
+    }, []);
 
-function Products() {
   return (
     <div className="products">
       <Container>
@@ -99,17 +107,21 @@ function Products() {
 
             <Stack className={"product-wrapper"}>
               {products.length !== 0 ? (
-                products.map((ele, index) => {
+                products?.map((product: Product, index) => {
+                  const imagePath = `${serverApi}/${product.productImages[0]}`;
+                  const sizeVolume = product.productCollection === ProductCollection.DRINK 
+                  ? product.productVolume + " litre " 
+                  : product.productSize + " size";
                   return (
-                    <Stack key={index} className={"product-card"}>
+                    <Stack key={product._id} className={"product-card"}>
                       <Stack
                         className={"product-img"}
                         sx={{
-                          backgroundImage: `url(${ele.imagePath})`,
+                          backgroundImage: `url(${imagePath})`,
                           backgroundSize: "cover",
                         }}
                       >
-                        <Box className="product-sale">Normal size </Box>
+                        <Box className="product-sale">{sizeVolume}</Box>
                         <Stack>
                           <Box>
                             <Button className={"shop-btn"}>
@@ -121,9 +133,15 @@ function Products() {
                           </Box>
                           <Box>
                             <Button className={"view-btn"}>
-                              <Badge badgeContent={20} color="secondary">
+                              <Badge 
+                                badgeContent={product.productViews} 
+                                color="secondary"
+                                >
                                 <RemoveRedIcon
-                                  sx={{ color: 20 ? "grey" : "white" }}
+                                  sx={{ 
+                                    color: 
+                                      product.productViews === 0 ? "grey" : "white"
+                                    }}
                                 />
                               </Badge>
                             </Button>
@@ -132,11 +150,11 @@ function Products() {
                       </Stack>
                       <Box className={"product-desc-box"}>
                         <span className={"product-title"}>
-                          {ele.productName}
+                          {product.productName}
                         </span>
                         <div className={"product-desc"}>
                           <MonetizationOnIcon />
-                          {12}
+                          {product.productPrice}
                         </div>
                       </Box>
                     </Stack>
@@ -227,4 +245,3 @@ function Products() {
   );
 }
 
-export default Products;
