@@ -5,7 +5,6 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PausedOrders from "./PausedOrders";
-import ProcessOrders from "./ProcessOrders";
 import FinishedOrders from "./FinishedOrders";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
@@ -18,6 +17,7 @@ import { useHistory } from "react-router-dom";
 import "../../../css/order.css";
 import { serverApi } from "../../../lib/config";
 import { MemberType } from "../../../lib/enums/member.enum";
+import ProcessOrders from "./ProcessOrder";
 
 /** REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
